@@ -53,7 +53,7 @@ class RainfallFunc:
     # Function loading DBF files and merge it if possible
     @staticmethod
     def merge_dbf(file1, file2):
-        print "filetype is " + str(type(file1))
+        #TODO here it is not file .DBF object maybe it should be saved on disc
         table1 = DBF(file1)
         records1 = list(table1)
 
