@@ -17,7 +17,6 @@ class UploadRainView(FormView):
     success_url = "/"
 
     def form_valid(self, form):
-        print "form is valid"
         files = DBFFile(title1=self.request.FILES['file1'].name, file1=self.request.FILES['file1'],
                         title2=self.request.FILES['file2'].name, file2=self.request.FILES['file2'])
         files.save()
@@ -30,9 +29,9 @@ class UploadRainView(FormView):
 
         DBFFile.handle_uploaded_file(self, path1, path2)
 
-        all_dbfs = DBFFile.objects.all()
-        for dbf_file in all_dbfs:
+        os.remove(path1)
+        os.remove(path2)
+        for dbf_file in DBFFile.objects.all():
             dbf_file.delete()
-            os.remove(path1)
-            os.remove(path2)
+
         return HttpResponseRedirect(self.get_success_url())
