@@ -5,26 +5,33 @@ from monitoring.forms import UploadFileForm
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from forms import UploadFileForm
-
+from .models import DBFFile
+from pig_apps.settings import MEDIA_ROOT
+import os
 # Create your views here.
 
 
 class UploadRainView(FormView):
     template_name = 'rain.html'
     form_class = UploadFileForm
-    success_url = ""
+    success_url = "/"
 
+    def form_valid(self, form):
+        files = DBFFile(title1=self.request.FILES['file1'].name, file1=self.request.FILES['file1'],
+                        title2=self.request.FILES['file2'].name, file2=self.request.FILES['file2'])
+        files.save()
 
-    def post(self, request, *args, **kwargs):
-        form_class = self.get_form_class()
-        form = self.get_form(form_class)
-        files = request.FILES.getlist('file_field')
-        print request.upload_handlers
-        if form.is_valid():
-            print "Form is valid"
-            uploadfileform = UploadFileForm()
-            uploadfileform.handle_uploaded_file(files[0], files[1])
-            return self.form_valid(form)
-        else:
-            print "Form is not valid"
-            return self.form_invalid(form)
+        filename1 = DBFFile.objects.last().title1
+        filename2 = DBFFile.objects.last().title2
+
+        path1 = MEDIA_ROOT + "/" + filename1
+        path2 = MEDIA_ROOT + "/" + filename2
+
+        DBFFile.handle_uploaded_file(self, path1, path2)
+
+        os.remove(path1)
+        os.remove(path2)
+        for dbf_file in DBFFile.objects.all():
+            dbf_file.delete()
+
+        return HttpResponseRedirect(self.get_success_url())

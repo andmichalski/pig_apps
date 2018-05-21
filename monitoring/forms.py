@@ -1,12 +1,7 @@
 from django import forms
-from monitoring.func import RainfallFunc
-from graph import Draw
+from .models import DBFFile
 
-class UploadFileForm(forms.Form):
-    file_field = forms.FileField(widget=forms.ClearableFileInput(attrs={'multiple': True}))
-
-    def handle_uploaded_file(self, file1, file2):
-        nlist = RainfallFunc.merge_dbf(file1, file2)
-        daily_sum = RainfallFunc.rainfall_sum(nlist)
-        print daily_sum
-        Draw.plot_rainfall(daily_sum)
+class UploadFileForm(forms.ModelForm):
+    class Meta:
+        model = DBFFile
+        fields = ['file1', 'file2']
