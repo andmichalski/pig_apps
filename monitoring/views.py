@@ -19,7 +19,7 @@ class UploadRainView(FormView):
         form_class = self.get_form_class()
         form = self.get_form(form_class)
         files = request.FILES.getlist('file_field')
-        print request.POST
+        print request.upload_handlers
         if form.is_valid():
             print "Form is valid"
             uploadfileform = UploadFileForm()
