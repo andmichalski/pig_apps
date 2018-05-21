@@ -38,7 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'monitoring',
-    'debug_toolbar'
+    'debug_toolbar',
+    'django_extensions'
 ]
 
 MIDDLEWARE = [
@@ -123,3 +124,5 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 INTERNAL_IPS = ('127.0.0.1',)
+
+MEDIA_ROOT = "D:/pig_apps/uploads"
