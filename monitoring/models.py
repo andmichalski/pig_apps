@@ -10,10 +10,8 @@ import os
 # Create your models here.
 
 class DBFFile(models.Model):
-    title1 = models.CharField(max_length=100, null=True)
-    file1 = models.FileField()
-    title2 = models.CharField(max_length=100, null=True)
-    file2 = models.FileField()
+    title = models.CharField(max_length=100, null=True)
+    file = models.FileField()
 
     @staticmethod
     def handle_uploaded_file(self, file1, file2):

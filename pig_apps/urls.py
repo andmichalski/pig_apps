@@ -15,12 +15,13 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
-from monitoring.views import UploadRainView
+from monitoring.views import UploadRainView, DecideNumberFileView
 from django.conf import settings
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^$', UploadRainView.as_view(), name="main"),
+    url(r'^$', DecideNumberFileView.as_view(), name='main_view'),
+    url(r'^upload/', UploadRainView.as_view(), name="upload_view"),
 ]
 
 if settings.DEBUG:
